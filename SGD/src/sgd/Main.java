@@ -9,6 +9,9 @@ package sgd;
  *
  * @author Jorge
  */
+import javax.xml.*;
+import javax.xml.parsers.SAXParserFactory;
+import org.xml.sax.helpers.ParserFactory;
 public class Main {
 
     /**
@@ -16,6 +19,12 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+
+        Info x;
+        x=new Info("dfsa", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+
+
+
     }
 
 }

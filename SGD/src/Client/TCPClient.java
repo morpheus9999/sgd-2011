@@ -8,6 +8,8 @@ package Client;
  *
  * @author Jorge
  */
+import javax.xml.*;
+
 import java.io.*;
 import java.net.*;
 
