@@ -30,11 +30,12 @@ public class JSon{
         Generator gen = new Generator();
         ObjecttoByte convert = new ObjecttoByte();
         Info[] dados;
+        String example;
         int i = 0;
         dados = gen.getDados();
-        //Socket clientSocket = new Socket("localhost", 6789);
+        Socket clientSocket = new Socket("localhost", 6789);
 
-        //for (i = 0; i < 100000; i++) {
+        for (i = 0; i < 100000; i++) {
 
         JSONObject json = new JSONObject();
         json.put("caller_id", dados[i].getCaller_id());
@@ -50,16 +51,19 @@ public class JSon{
         json.put("flow_billmsec", dados[i].getFlow_billmsec());
         json.put("uduration", dados[i].getUduration());
 
-        System.out.println(":" + json);
+        //System.out.println(":" + json);
+        example = json.toString();
+        byte[] teste = convert.toBytes(example);
+       // System.out.println(teste);
+       
 
-        byte[] teste = convert.toBytes(json);
-        System.out.println(teste);
-        System.out.println(teste.length);
+        //toObject(teste);
+        sendBytes(teste, 0, teste.length, clientSocket);
 
-        toObject(teste);
-        //sendBytes(teste, 0, teste.length, clientSocket);
+            if(i==99000)
+                i=0;
 
-        //}
+        }
     }
 
     public static byte[] toBytes(Object object) throws IOException {
@@ -75,7 +79,7 @@ public class JSon{
        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
         ObjectInput in = new ObjectInputStream(bis);
         Object o = in.readObject();
-        System.out.println(0);
+        //System.out.println(0);
         return o;
     }
 
@@ -96,6 +100,7 @@ public class JSon{
         dos.writeInt(len);
         if (len > 0) {
             dos.write(myByteArray, start, len);
+            dos.flush();
         }
 
 

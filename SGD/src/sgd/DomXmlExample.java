@@ -35,7 +35,7 @@ public class DomXmlExample {
         int i = 0;
         dados = gen.getDados();
 
-        for (i = 0; i < 100000; i++) {
+       // for (i = 0; i < 100000; i++) {
             try {
                 /////////////////////////////
                 //Creating an empty XML Document
@@ -154,9 +154,28 @@ public class DomXmlExample {
                 //print xml
                 System.out.println("Here's the xml:\n\n" + xmlString);
 
+                toObject(toBytes(xmlString));
+
             } catch (Exception e) {
                 System.out.println(e);
             }
-        }
+        //}
+    }
+
+    public static byte[] toBytes(Object object) throws IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutput out = new ObjectOutputStream(bos);
+        out.writeObject(object);
+        return bos.toByteArray();
+    }
+
+    public static Object toObject(byte[] bytes) throws IOException, ClassNotFoundException {
+
+
+       ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+        ObjectInput in = new ObjectInputStream(bis);
+        Object o = in.readObject();
+        System.out.println(o);
+        return o;
     }
 }
