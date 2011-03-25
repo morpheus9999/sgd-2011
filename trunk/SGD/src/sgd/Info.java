@@ -23,6 +23,8 @@ public class Info {
     int flow_billmsec;
     int uduration;
 
+    public Info(){}
+
     public Info(String caller_id, int duration, int billsec, int billmsec, int progressec, int progress_mediasec, int flow_billsec, int mduration, int progressmsec, int progress_mediamsec, int flow_billmsec, int uduration) {
         this.caller_id = caller_id;
         this.duration = duration;
