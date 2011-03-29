@@ -10,6 +10,8 @@ package sgd;
  */
 import Client.Generator;
 import java.io.*;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import org.w3c.dom.*;
 
@@ -26,16 +28,20 @@ public class DomXmlExample {
      */
     Generator gen = new Generator();
     Info[] dados;
+    ObjecttoByte convert = new ObjecttoByte();
 
-    public static void main(String args[]) {
+
+    public static void main(String args[]) throws Exception{
+        
         new DomXmlExample();
     }
 
-    public DomXmlExample() {
+    public DomXmlExample() throws UnknownHostException, IOException {
         int i = 0;
         dados = gen.getDados();
+        Socket clientSocket = new Socket("localhost", 6789);
 
-       // for (i = 0; i < 100000; i++) {
+        for (i = 0; i < 100000; i++) {
             try {
                 /////////////////////////////
                 //Creating an empty XML Document
@@ -148,34 +154,44 @@ public class DomXmlExample {
                 DOMSource source = new DOMSource(doc);
                 trans.transform(source, result);
                 String xmlString = sw.toString();
-                System.out.println("-------------");
+                //System.out.println("-------------");
 
 
                 //print xml
-                System.out.println("Here's the xml:\n\n" + xmlString);
-
-                toObject(toBytes(xmlString));
+                //System.out.println("Here's the xml:\n\n" + xmlString);
+                 byte[] teste = convert.toBytes(xmlString);
+                  sendBytes(teste, 0, teste.length, clientSocket);
 
             } catch (Exception e) {
                 System.out.println(e);
             }
-        //}
+
+            if (i == 99000) {
+                i = 0;
+            }
+        }
     }
 
-    public static byte[] toBytes(Object object) throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutput out = new ObjectOutputStream(bos);
-        out.writeObject(object);
-        return bos.toByteArray();
-    }
+    public static void sendBytes(byte[] myByteArray, int start, int len, Socket clientSocket) throws IOException {
+        if (len < 0) {
+            throw new IllegalArgumentException("Negative length not allowed");
+        }
+        if (start < 0 || start >= myByteArray.length) {
+            throw new IndexOutOfBoundsException("Out of bounds: " + start);
+        }
+        // Other checks if needed.
 
-    public static Object toObject(byte[] bytes) throws IOException, ClassNotFoundException {
+        // May be better to save the streams in the support class;
+        // just like the socket variable.
+        OutputStream out = clientSocket.getOutputStream();
+        DataOutputStream dos = new DataOutputStream(out);
+
+        dos.writeInt(len);
+        if (len > 0) {
+            dos.write(myByteArray, start, len);
+            dos.flush();
+        }
 
 
-       ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-        ObjectInput in = new ObjectInputStream(bis);
-        Object o = in.readObject();
-        System.out.println(o);
-        return o;
     }
 }

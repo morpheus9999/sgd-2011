@@ -11,11 +11,14 @@ package Server;
 import java.io.*;
 import java.net.*;
 import org.json.JSONObject;
+import sgd.BytetoObject;
 
 class TCPServer {
 
     public static void main(String argv[]) throws Exception {
 
+        Object obj = null;
+        BytetoObject convert = new BytetoObject();
         ServerSocket welcomeSocket = new ServerSocket(6789);
         Socket connectionSocket;
         connectionSocket= welcomeSocket.accept();
@@ -32,27 +35,13 @@ class TCPServer {
             }
             //System.out.println(data);
             //System.out.println(data.length);
-            toObject(data);
+            obj = convert.toObject(data);
             v++;
             System.out.println(v);
+            System.out.println(obj);
         }
 
     }
 
-    public static Object toObject(byte[] bytes) {
 
-
-        Object object = null;
-   
-        try {
-
-            object =  new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(bytes)).readObject();
-        } catch (java.io.IOException ioe) {
-            System.out.println("aaa");
-             java.util.logging.Logger.global.log(java.util.logging.Level.SEVERE,ioe.getMessage());
-        } catch (java.lang.ClassNotFoundException cnfe) {
-        }
-        //System.out.println(object);
-        return object;
-    }
 }
