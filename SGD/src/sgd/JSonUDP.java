@@ -4,36 +4,35 @@
  */
 package sgd;
 
-/**
- *
- * @author Jorge
- */
 import Client.Generator;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
-import java.net.Socket;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import org.json.JSONObject;
 
-public class JSon {
+/**
+ *
+ * @author David
+ */
+public class JSonUDP {
 
     public static void main(String[] args) throws Exception {
+
         Generator gen = new Generator();
         ObjecttoByte convert = new ObjecttoByte();
         Info[] dados;
-        String example;
         int i = 0;
         dados = gen.getDados();
-        Socket clientSocket = new Socket("localhost", 6789);
+        String example;
+
+        BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
+        DatagramSocket clientSocket = new DatagramSocket();
+        InetAddress IPAddress = InetAddress.getByName("localhost");
+        byte[] sendData = new byte[1024];
+        
+        
 
         for (i = 0; i < 100000; i++) {
 
@@ -51,43 +50,19 @@ public class JSon {
             json.put("flow_billmsec", dados[i].getFlow_billmsec());
             json.put("uduration", dados[i].getUduration());
 
-            //System.out.println(":" + json);
-            //System.out.println(i);
+            System.out.println(":" + json);
             example = json.toString();
-            byte[] teste = convert.toBytes(example);
+            sendData = convert.toBytes(example);
             // System.out.println(teste);
 
-
-            //toObject(teste);
-            sendBytes(teste, 0, teste.length, clientSocket);
+          
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
+            clientSocket.send(sendPacket);
 
             if (i == 99000) {
                 i = 0;
             }
 
         }
-    }
-
-    public static void sendBytes(byte[] myByteArray, int start, int len, Socket clientSocket) throws IOException {
-        if (len < 0) {
-            throw new IllegalArgumentException("Negative length not allowed");
-        }
-        if (start < 0 || start >= myByteArray.length) {
-            throw new IndexOutOfBoundsException("Out of bounds: " + start);
-        }
-        // Other checks if needed.
-
-        // May be better to save the streams in the support class;
-        // just like the socket variable.
-        OutputStream out = clientSocket.getOutputStream();
-        DataOutputStream dos = new DataOutputStream(out);
-
-        dos.writeInt(len);
-        if (len > 0) {
-            dos.write(myByteArray, start, len);
-            dos.flush();
-        }
-
-
     }
 }
