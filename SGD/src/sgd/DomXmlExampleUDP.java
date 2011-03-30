@@ -32,6 +32,7 @@ public class DomXmlExampleUDP {
     Generator gen = new Generator();
     Info[] dados;
     ObjecttoByte convert = new ObjecttoByte();
+    ConverttoXML t = new ConverttoXML();
 
     public static void main(String args[]) throws Exception {
 
@@ -47,7 +48,7 @@ public class DomXmlExampleUDP {
         InetAddress IPAddress = InetAddress.getByName("localhost");
         byte[] sendData = new byte[1024];
 
-        for (i = 0; i < 100000; i++) {
+        //for (i = 0; i < 100000; i++) {
             try {
                 /////////////////////////////
                 //Creating an empty XML Document
@@ -64,9 +65,7 @@ public class DomXmlExampleUDP {
                 Element root = doc.createElement("root");
                 doc.appendChild(root);
 
-                //create a comment and put it in the root element
-                Comment comment = doc.createComment("Just a thought");
-                root.appendChild(comment);
+                
 
                 //create child element, add an attribute, and add to root
                 Element child = doc.createElement("caller_id");
@@ -160,17 +159,16 @@ public class DomXmlExampleUDP {
                 DOMSource source = new DOMSource(doc);
                 trans.transform(source, result);
                 String xmlString = sw.toString();
-                //System.out.println("-------------");
-
-
-                //print xml
+                
                 //System.out.println("Here's the xml:\n\n" + xmlString);
 
                 sendData = convert.toBytes(xmlString);
-
+                
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
                 clientSocket.send(sendPacket);
+                
 
+                
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -178,6 +176,6 @@ public class DomXmlExampleUDP {
             if (i == 99000) {
                 i = 0;
             }
-        }
+        //}
     }
 }

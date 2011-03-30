@@ -58,9 +58,6 @@ public class DomXmlExample {
                 Element root = doc.createElement("root");
                 doc.appendChild(root);
 
-                //create a comment and put it in the root element
-                Comment comment = doc.createComment("Just a thought");
-                root.appendChild(comment);
 
                 //create child element, add an attribute, and add to root
                 Element child = doc.createElement("caller_id");
