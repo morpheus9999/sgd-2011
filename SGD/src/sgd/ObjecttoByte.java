@@ -22,5 +22,6 @@ public class ObjecttoByte {
             java.util.logging.Logger.global.log(java.util.logging.Level.SEVERE, ioe.getMessage());
         }
         return baos.toByteArray();
+        
     }
 }
