@@ -14,6 +14,7 @@ public class ObjecttoByte {
     }
 
     public static byte[] toBytes(Object object) {
+        System.out.println("");
         java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
         try {
             java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
@@ -22,6 +23,7 @@ public class ObjecttoByte {
             java.util.logging.Logger.global.log(java.util.logging.Level.SEVERE, ioe.getMessage());
         }
         return baos.toByteArray();
+
         
     }
 }
