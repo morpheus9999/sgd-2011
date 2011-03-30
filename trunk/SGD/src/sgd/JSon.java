@@ -35,7 +35,7 @@ public class JSon {
         dados = gen.getDados();
         Socket clientSocket = new Socket("localhost", 6789);
 
-        for (i = 0; i < 100000; i++) {
+        //for (i = 0; i < 100000; i++) {
 
             JSONObject json = new JSONObject();
             json.put("caller_id", dados[i].getCaller_id());
@@ -65,7 +65,7 @@ public class JSon {
                 i = 0;
             }
 
-        }
+        //}
     }
 
     public static void sendBytes(byte[] myByteArray, int start, int len, Socket clientSocket) throws IOException {

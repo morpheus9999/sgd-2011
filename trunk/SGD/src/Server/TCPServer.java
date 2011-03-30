@@ -12,6 +12,7 @@ import java.io.*;
 import java.net.*;
 import org.json.JSONObject;
 import sgd.BytetoObject;
+import sgd.ConverttoJSON;
 import sgd.ConverttoXML;
 
 class TCPServer {
@@ -25,7 +26,10 @@ class TCPServer {
         connectionSocket = welcomeSocket.accept();
         InputStream in = connectionSocket.getInputStream();
         DataInputStream dis = new DataInputStream(in);
+        
         ConverttoXML t = new ConverttoXML();
+        ConverttoJSON t1 = new ConverttoJSON();
+
         int v = 0;
         while (true) {
 
@@ -40,9 +44,10 @@ class TCPServer {
             obj = convert.toObject(data);
             v++;
             System.out.println(v);
-            //System.out.println(obj);
+            System.out.println(obj);
 
-            t.conv(obj);
+            t1.conv(obj);
+           // t.conv(obj);
         }
 
     }
