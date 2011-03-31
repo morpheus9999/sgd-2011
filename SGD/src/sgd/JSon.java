@@ -9,63 +9,55 @@ package sgd;
  * @author Jorge
  */
 import Client.Generator;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONObject;
 
 public class JSon {
 
-    public static void main(String[] args) throws Exception {
-        Generator gen = new Generator();
-        ObjecttoByte convert = new ObjecttoByte();
-        Info[] dados;
-        String example;
-        int i = 0;
-        dados = gen.getDados();
-        Socket clientSocket = new Socket("localhost", 6789);
-
-        //for (i = 0; i < 100000; i++) {
-
-            JSONObject json = new JSONObject();
-            json.put("caller_id", dados[i].getCaller_id());
-            json.put("duration", dados[i].getDuration());
-            json.put("billsec", dados[i].getBillsec());
-            json.put("progresssec", dados[i].getProgressec());
-            json.put("progress_mediasec", dados[i].getProgress_mediasec());
-            json.put("flow_billsec", dados[i].getBillsec());
-            json.put("mduration", dados[i].getMduration());
-            json.put("billmsec", dados[i].getBillmsec());
-            json.put("progressmsec", dados[i].getProgressmsec());
-            json.put("progress_mediamsec", dados[i].getProgress_mediamsec());
-            json.put("flow_billmsec", dados[i].getFlow_billmsec());
-            json.put("uduration", dados[i].getUduration());
-
-            //System.out.println(":" + json);
-            //System.out.println(i);
-            example = json.toString();
-            byte[] teste = convert.toBytes(example);
-            // System.out.println(teste);
-
-
-            //toObject(teste);
-            sendBytes(teste, 0, teste.length, clientSocket);
-
-            if (i == 99000) {
-                i = 0;
+    public static void main(String[] args) {
+        try {
+            Generator gen = new Generator();
+            ObjecttoByte convert = new ObjecttoByte();
+            Info[] dados;
+            String example;
+            int i = 0;
+            dados = gen.getDados();
+            Socket clientSocket = new Socket("localhost", 6789);
+            for (i = 0; i < 100000; i++) {
+                JSONObject json = new JSONObject();
+                json.put("tempo", System.currentTimeMillis());
+                json.put("caller_id", dados[i].getCaller_id());
+                json.put("duration", dados[i].getDuration());
+                json.put("billsec", dados[i].getBillsec());
+                json.put("progresssec", dados[i].getProgressec());
+                json.put("progress_mediasec", dados[i].getProgress_mediasec());
+                json.put("flow_billsec", dados[i].getBillsec());
+                json.put("mduration", dados[i].getMduration());
+                json.put("billmsec", dados[i].getBillmsec());
+                json.put("progressmsec", dados[i].getProgressmsec());
+                json.put("progress_mediamsec", dados[i].getProgress_mediamsec());
+                json.put("flow_billmsec", dados[i].getFlow_billmsec());
+                json.put("uduration", dados[i].getUduration());
+                //System.out.println(":" + json);
+                example = json.toString();
+                byte[] teste = convert.toBytes(example);
+                sendBytes(teste, 0, teste.length, clientSocket);
+                if (i == 99000) {
+                    i = 0;
+                }
             }
-
-        //}
+        } catch (UnknownHostException ex) {
+            return;
+        } catch (IOException ex) {
+            return;
+        }
+        return;
     }
 
     public static void sendBytes(byte[] myByteArray, int start, int len, Socket clientSocket) throws IOException {
@@ -87,7 +79,5 @@ public class JSon {
             dos.write(myByteArray, start, len);
             dos.flush();
         }
-
-
     }
 }

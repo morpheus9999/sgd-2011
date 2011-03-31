@@ -37,6 +37,7 @@ public class JSonUDP {
         for (i = 0; i < 100000; i++) {
 
             JSONObject json = new JSONObject();
+            json.put("tempo", System.currentTimeMillis());
             json.put("caller_id", dados[i].getCaller_id());
             json.put("duration", dados[i].getDuration());
             json.put("billsec", dados[i].getBillsec());
@@ -50,7 +51,7 @@ public class JSonUDP {
             json.put("flow_billmsec", dados[i].getFlow_billmsec());
             json.put("uduration", dados[i].getUduration());
 
-            System.out.println(":" + json);
+            //System.out.println(":" + json);
             example = json.toString();
             sendData = convert.toBytes(example);
             // System.out.println(teste);

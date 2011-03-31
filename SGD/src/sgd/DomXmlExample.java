@@ -12,6 +12,8 @@ import Client.Generator;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.w3c.dom.*;
 
@@ -30,16 +32,17 @@ public class DomXmlExample {
     Info[] dados;
     ObjecttoByte convert = new ObjecttoByte();
 
+    public static void main(String args[]) throws Exception {
 
-    public static void main(String args[]) throws Exception{
-        
         new DomXmlExample();
     }
 
     public DomXmlExample() throws UnknownHostException, IOException {
         int i = 0;
         dados = gen.getDados();
-        Socket clientSocket = new Socket("localhost", 6789);
+        Socket clientSocket;
+
+        clientSocket = new Socket("localhost", 6789);
 
         for (i = 0; i < 100000; i++) {
             try {
@@ -58,6 +61,11 @@ public class DomXmlExample {
                 Element root = doc.createElement("root");
                 doc.appendChild(root);
 
+                Element child0 = doc.createElement("tempo");
+                root.appendChild(child0);
+                //add a text element to the child
+                Text text0 = doc.createTextNode("" + System.currentTimeMillis());
+                child0.appendChild(text0);
 
                 //create child element, add an attribute, and add to root
                 Element child = doc.createElement("caller_id");
@@ -70,71 +78,69 @@ public class DomXmlExample {
 
                 root.appendChild(child1);
                 //add a text element to the child
-                Text text1 = doc.createTextNode(""+dados[i].getDuration());
+                Text text1 = doc.createTextNode("" + dados[i].getDuration());
                 child1.appendChild(text1);
 
-                 Element child2 = doc.createElement("billsec");
+                Element child2 = doc.createElement("billsec");
                 root.appendChild(child2);
                 //add a text element to the child
-                Text text2 = doc.createTextNode(""+dados[i].getBillsec());
+                Text text2 = doc.createTextNode("" + dados[i].getBillsec());
                 child2.appendChild(text2);
 
-                 Element child3 = doc.createElement("progresssec");
+                Element child3 = doc.createElement("progresssec");
                 root.appendChild(child3);
                 //add a text element to the child
-                Text text3 = doc.createTextNode(""+dados[i].getProgressec());
+                Text text3 = doc.createTextNode("" + dados[i].getProgressec());
                 child3.appendChild(text3);
 
-                 Element child4 = doc.createElement("progress_mediasec");
+                Element child4 = doc.createElement("progress_mediasec");
                 root.appendChild(child4);
                 //add a text element to the child
-                Text text4 = doc.createTextNode(""+dados[i].getProgress_mediasec());
+                Text text4 = doc.createTextNode("" + dados[i].getProgress_mediasec());
                 child4.appendChild(text4);
 
                 Element child5 = doc.createElement("flow_billsec");
                 root.appendChild(child5);
                 //add a text element to the child
-                Text text5 = doc.createTextNode(""+dados[i].getFlow_billsec());
+                Text text5 = doc.createTextNode("" + dados[i].getFlow_billsec());
                 child5.appendChild(text5);
 
                 Element child6 = doc.createElement("mduration");
                 root.appendChild(child6);
                 //add a text element to the child
-                Text text6 = doc.createTextNode(""+dados[i].getMduration());
+                Text text6 = doc.createTextNode("" + dados[i].getMduration());
                 child6.appendChild(text6);
 
-                 Element child7 = doc.createElement("billmsec");
+                Element child7 = doc.createElement("billmsec");
                 root.appendChild(child7);
                 //add a text element to the child
-                Text text7 = doc.createTextNode(""+dados[i].getBillmsec());
+                Text text7 = doc.createTextNode("" + dados[i].getBillmsec());
                 child7.appendChild(text7);
 
 
-                 Element child8 = doc.createElement("progressmsec");
+                Element child8 = doc.createElement("progressmsec");
                 root.appendChild(child8);
                 //add a text element to the child
-                Text text8 = doc.createTextNode(""+dados[i].getProgressmsec());
+                Text text8 = doc.createTextNode("" + dados[i].getProgressmsec());
                 child8.appendChild(text8);
 
                 Element child9 = doc.createElement("progress_mediamsec");
                 root.appendChild(child9);
                 //add a text element to the child
-                Text text9 = doc.createTextNode(""+dados[i].getProgress_mediamsec());
+                Text text9 = doc.createTextNode("" + dados[i].getProgress_mediamsec());
                 child9.appendChild(text9);
 
-                 Element child10 = doc.createElement("flow_billmsec");
+                Element child10 = doc.createElement("flow_billmsec");
                 root.appendChild(child10);
                 //add a text element to the child
-                Text text10 = doc.createTextNode(""+dados[i].getFlow_billmsec());
+                Text text10 = doc.createTextNode("" + dados[i].getFlow_billmsec());
                 child10.appendChild(text10);
 
-                 Element child11 = doc.createElement("uduration");
+                Element child11 = doc.createElement("uduration");
                 root.appendChild(child11);
                 //add a text element to the child
-                Text text11 = doc.createTextNode(""+dados[i].getUduration());
+                Text text11 = doc.createTextNode("" + dados[i].getUduration());
                 child11.appendChild(text11);
-
-
 
                 /////////////////
                 //Output the XML
@@ -153,20 +159,19 @@ public class DomXmlExample {
                 String xmlString = sw.toString();
                 //System.out.println("-------------");
 
-
                 //print xml
                 //System.out.println("Here's the xml:\n\n" + xmlString);
-                 byte[] teste = convert.toBytes(xmlString);
-                  sendBytes(teste, 0, teste.length, clientSocket);
+                byte[] teste = convert.toBytes(xmlString);
+                sendBytes(teste, 0, teste.length, clientSocket);
 
             } catch (Exception e) {
-                System.out.println(e);
+                return;
             }
 
-            if (i == 99000) {
+            if (i == 99000)
                 i = 0;
-            }
         }
+        return;
     }
 
     public static void sendBytes(byte[] myByteArray, int start, int len, Socket clientSocket) throws IOException {
@@ -188,7 +193,5 @@ public class DomXmlExample {
             dos.write(myByteArray, start, len);
             dos.flush();
         }
-
-
     }
 }
