@@ -22,8 +22,17 @@ public class Info {
     int progress_mediamsec;
     int flow_billmsec;
     int uduration;
+    int tempoInicial;
 
     public Info(){}
+
+    public int getTempoInicial() {
+        return tempoInicial;
+    }
+
+    public void setTempoInicial(int tempoInicial) {
+        this.tempoInicial = tempoInicial;
+    }
 
     public Info(String caller_id, int duration, int billsec, int billmsec, int progressec, int progress_mediasec, int flow_billsec, int mduration, int progressmsec, int progress_mediamsec, int flow_billmsec, int uduration) {
         this.caller_id = caller_id;
@@ -38,6 +47,7 @@ public class Info {
         this.progress_mediamsec = progress_mediamsec;
         this.flow_billmsec = flow_billmsec;
         this.uduration = uduration;
+        this.tempoInicial = tempoInicial;
     }
 
 

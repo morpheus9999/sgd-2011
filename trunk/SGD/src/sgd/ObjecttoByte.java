@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package sgd;
 
 /**
@@ -11,10 +12,10 @@ package sgd;
 public class ObjecttoByte {
 
     public ObjecttoByte() {
-    }
+}
 
     public static byte[] toBytes(Object object) {
-    
+
         java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
         try {
             java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
@@ -24,6 +25,6 @@ public class ObjecttoByte {
         }
         return baos.toByteArray();
 
-        
+
     }
 }

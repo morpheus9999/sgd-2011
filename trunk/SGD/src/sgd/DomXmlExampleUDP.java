@@ -32,8 +32,7 @@ public class DomXmlExampleUDP {
     Generator gen = new Generator();
     Info[] dados;
     ObjecttoByte convert = new ObjecttoByte();
-    ConverttoXML t = new ConverttoXML();
-
+   
     public static void main(String args[]) throws Exception {
 
         new DomXmlExampleUDP();
@@ -48,7 +47,7 @@ public class DomXmlExampleUDP {
         InetAddress IPAddress = InetAddress.getByName("localhost");
         byte[] sendData = new byte[1024];
 
-        //for (i = 0; i < 100000; i++) {
+        for (i = 0; i < 100000; i++) {
             try {
                 /////////////////////////////
                 //Creating an empty XML Document
@@ -65,6 +64,11 @@ public class DomXmlExampleUDP {
                 Element root = doc.createElement("root");
                 doc.appendChild(root);
 
+                Element child0 = doc.createElement("tempo");
+                root.appendChild(child0);
+                //add a text element to the child
+                Text text0 = doc.createTextNode(""+System.currentTimeMillis());
+                child0.appendChild(text0);
                 
 
                 //create child element, add an attribute, and add to root
@@ -176,6 +180,6 @@ public class DomXmlExampleUDP {
             if (i == 99000) {
                 i = 0;
             }
-        //}
+        }
     }
 }
