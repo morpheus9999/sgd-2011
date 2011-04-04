@@ -56,11 +56,8 @@ class TCPServerJSON {
                 long tempo = tempoFinal - tempoInicial;
                 medir.add(tempo);
             }
-            System.out.println("Média: " + medir.getAvg());
-            System.out.println("Máximo: " + medir.getMax());
-            System.out.println("Minimo: " + medir.getMin());
-            System.out.println("Desvio Padrão: " + medir.getStdev());
-            System.out.println("Total: " + medir.getN());
+             medir.print_statistics();
+
             break;
         }
         return;

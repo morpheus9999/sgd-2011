@@ -43,13 +43,17 @@ public class Medicoes {
         this.min = min;
     }
 
-    public void add(long latency) {
-        n++;
-        sum += latency;
-        ssum += (latency * latency);
-        max = Math.max(max, latency);
-        min = Math.min(min, latency);
-    }
+   public void add(long latency){
+		n++;
+		sum+=latency;
+		ssum+=(latency*latency);
+		max =Math.max(max, latency);
+		if(min > 0)
+			min = Math.min(min, latency);
+		else
+			min = latency;
+	}
+
 
     public long getAvg() {
         return sum / n;
@@ -58,4 +62,16 @@ public class Medicoes {
     public double getStdev() {
         return Math.sqrt(ssum / n - getAvg() * getAvg());
     }
+
+    public void print_statistics() {
+        
+		System.out.println("N = " + n);
+		System.out.println("sum = " + sum);
+		System.out.println("ssum = " + ssum);
+		System.out.println("max = " + max);
+		System.out.println("min = " + min);
+		System.out.println("avg = " + getAvg());
+		System.out.println("stdev = " + getStdev());
+	}
+
 }
