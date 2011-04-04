@@ -77,13 +77,13 @@ class TCPServer {
                 long tempoFinal = System.currentTimeMillis();
                 long tempoInicial = Long.parseLong(nodes.item(0).getNodeValue());
                 long tempo = tempoFinal - tempoInicial;
+                System.out.println(tempo);
                 medir.add(tempo);
+
             }
-            System.out.println("Média: " + medir.getAvg());
-            System.out.println("Máximo: " + medir.getMax());
-            System.out.println("Minimo: " + medir.getMin());
-            System.out.println("Desvio Padrão: " + medir.getStdev());
-            System.out.println("Total: " + medir.getN());
+            
+            medir.print_statistics();
+
             break;
         }
         return;
