@@ -26,6 +26,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import java.io.ByteArrayInputStream;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -70,8 +75,22 @@ class TCPServer {
                 NodeList nodes = (NodeList) result;
                 //for (int i = 0; i < nodes.getLength(); i++) {
 
-                //  System.out.println(nodes.item(i).getNodeValue());
+                  //System.out.println(nodes.item(i).getNodeValue());
                 //}
+
+                 TransformerFactory transfac = TransformerFactory.newInstance();
+                Transformer trans = transfac.newTransformer();
+                trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+                trans.setOutputProperty(OutputKeys.INDENT, "yes");
+
+                StringWriter sw = new StringWriter();
+                StreamResult result1 = new StreamResult(sw);
+                DOMSource source = new DOMSource(m);
+                trans.transform(source, result1);
+                String xmlString = sw.toString();
+
+                System.out.println(xmlString);
+
                 infoo = new Info(nodes.item(1).getNodeValue(), Integer.parseInt(nodes.item(2).getNodeValue()), Integer.parseInt(nodes.item(3).getNodeValue()), Integer.parseInt(nodes.item(4).getNodeValue()), Integer.parseInt(nodes.item(5).getNodeValue()), Integer.parseInt(nodes.item(6).getNodeValue()), Integer.parseInt(nodes.item(7).getNodeValue()), Integer.parseInt(nodes.item(8).getNodeValue()), Integer.parseInt(nodes.item(9).getNodeValue()), Integer.parseInt(nodes.item(10).getNodeValue()), Integer.parseInt(nodes.item(11).getNodeValue()), Integer.parseInt(nodes.item(12).getNodeValue()));
 
                 long tempoFinal = System.currentTimeMillis();
